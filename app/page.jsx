@@ -1,9 +1,7 @@
-import CharacterList from '@components/CharacterList';
-
 export default function Home() {
   return (
     <main className="">
-      <CharacterList />
+      <h1>Home</h1>
     </main>
   );
 }
