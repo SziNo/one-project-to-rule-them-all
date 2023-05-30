@@ -1,12 +1,19 @@
+import axios from 'axios';
 import { THE_ONE_API_BASE_URL } from '@utils/constants';
 
-const CharacterList = async () => {
-  const response = await fetch(`${THE_ONE_API_BASE_URL}/character`, {
+const getCharactersData = async () => {
+  const res = await axios.get(`${THE_ONE_API_BASE_URL}/character`, {
     headers: {
       Authorization: `Bearer ${process.env.THE_ONE_API_KEY}`,
     },
   });
-  const data = await response.json();
+
+  return res.data.docs;
+};
+
+const CharacterList = async () => {
+  const characters = await getCharactersData();
+  console.log(characters);
 
   return <div>CharacterList</div>;
 };
