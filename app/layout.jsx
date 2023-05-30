@@ -5,7 +5,7 @@ export const metadata = {
   title: 'The One Project',
   description: 'Exploring the lore of The lord of the rings',
   icons: {
-    icon: '/assets/icons/favicon.ico',
+    icon: '/assets/icons/sauroneye1.png',
   },
 };
 
