@@ -7,8 +7,14 @@ import Image from 'next/image';
 import { navLinks } from '@utils/constants';
 
 const Nav = () => {
-  const isUserLoggedIn = true;
+  const { data: session } = useSession();
   const [providers, setProviders] = useState(null);
+  const [toggleDropdown, setToggleDropdown] = useState(false);
+
+  const handleMobileLogoutClick = () => {
+    signOut();
+    setToggleDropdown(false);
+  };
 
   useEffect(() => {
     const setNewProviders = async () => {
@@ -40,7 +46,7 @@ const Nav = () => {
           </Link>
         ))}
 
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className="flex gap-2">
             <Link href="/favorites" className="black_btn">
               Favorites
@@ -68,6 +74,64 @@ const Nav = () => {
       </div>
 
       {/* Mobile Navigation */}
+      <div className="sm:hidden flex relative">
+        <div className="flex">
+          <Image
+            src={`${
+              toggleDropdown
+                ? '/assets/icons/close.png'
+                : '/assets/icons/menu.png'
+            }`}
+            alt="Hamburger Menu Icon"
+            width={30}
+            height={30}
+            className="object-contain"
+            onClick={() => setToggleDropdown((prev) => !prev)}
+          />
+        </div>
+
+        {toggleDropdown && (
+          <div className="dropdown" onClick={() => setToggleDropdown(false)}>
+            {navLinks.map((item, idx) => (
+              <Link key={idx} href={item.href} className="black_btn">
+                {item.title}
+              </Link>
+            ))}
+
+            {session?.user ? (
+              <>
+                <Link
+                  href="/favorites"
+                  className="black_btn"
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  Favorites
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={handleMobileLogoutClick}
+                  className="outline_btn"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              providers &&
+              Object.values(providers).map((provider) => (
+                <button
+                  type="button"
+                  key={provider.name}
+                  onClick={() => signIn(provider.id)}
+                  className="black_btn"
+                >
+                  Sign In
+                </button>
+              ))
+            )}
+          </div>
+        )}
+      </div>
     </nav>
   );
 };
