@@ -10,11 +10,7 @@ const Nav = () => {
   const { data: session } = useSession();
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
-
-  const handleMobileLogoutClick = () => {
-    signOut();
-    setToggleDropdown(false);
-  };
+  const [isActive, setIsActive] = useState(null);
 
   useEffect(() => {
     const setNewProviders = async () => {
@@ -24,6 +20,15 @@ const Nav = () => {
 
     setNewProviders();
   }, []);
+
+  const handleMobileLogoutClick = () => {
+    signOut();
+    setToggleDropdown(false);
+  };
+
+  const handleIsActiveClick = (e) => {
+    setIsActive(e.target.name);
+  };
 
   return (
     <nav className="flex flex-between w-full mb-16 pt-3">
@@ -41,18 +46,37 @@ const Nav = () => {
       {/* Desktop Navigation */}
       <div className="sm:flex hidden gap-2">
         {navLinks.map((item, idx) => (
-          <Link key={idx} href={item.href} className="black_btn">
+          <Link
+            key={idx}
+            href={item.href}
+            className={`custom_btn ${
+              isActive === item.title.toLowerCase()
+                ? 'bg-white text-black'
+                : 'bg-black text-white'
+            }`}
+            name={item.title.toLowerCase()}
+            onClick={handleIsActiveClick}
+          >
             {item.title}
           </Link>
         ))}
 
         {session?.user ? (
           <div className="flex gap-2">
-            <Link href="/favorites" className="black_btn">
+            <Link
+              href="/favorites"
+              className={`custom_btn ${
+                isActive === 'favorites'
+                  ? 'bg-white text-black'
+                  : 'bg-black text-white'
+              }`}
+              name="favorites"
+              onClick={handleIsActiveClick}
+            >
               Favorites
             </Link>
 
-            <button type="button" onClick={signOut} className="outline_btn">
+            <button type="button" onClick={signOut} className="black_btn">
               Sign Out
             </button>
           </div>
@@ -111,7 +135,7 @@ const Nav = () => {
                 <button
                   type="button"
                   onClick={handleMobileLogoutClick}
-                  className="outline_btn"
+                  className="black_btn"
                 >
                   Sign Out
                 </button>
