@@ -117,7 +117,7 @@ const Nav = () => {
         {toggleDropdown && (
           <div className="dropdown" onClick={() => setToggleDropdown(false)}>
             {navLinks.map((item, idx) => (
-              <Link key={idx} href={item.href} className="black_btn">
+              <Link key={idx} href={item.href} className="dropdown_link">
                 {item.title}
               </Link>
             ))}
@@ -126,7 +126,7 @@ const Nav = () => {
               <>
                 <Link
                   href="/favorites"
-                  className="black_btn"
+                  className="dropdown_link"
                   onClick={() => setToggleDropdown(false)}
                 >
                   Favorites
