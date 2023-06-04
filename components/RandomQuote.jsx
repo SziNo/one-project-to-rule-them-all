@@ -12,6 +12,7 @@ const RandomQuote = () => {
   const fetchData = useCallback(async () => {
     setLoading(true);
     const quotesData = await getLOTRData('quote');
+
     const randomQuote =
       quotesData[Math.floor(Math.random() * quotesData.length)];
     setQuote(randomQuote);
@@ -33,13 +34,21 @@ const RandomQuote = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <>
-          <p>{quote?.dialog}</p>
-          <p>Character: {character?.name}</p>
-          <p>Movie: {movie?.name}</p>
-        </>
+        <div className="glassmorphism flex flex-col gap-3 items-center p-6 rounded-lg shadow-lg tracking-normal max-w-md w-full">
+          <p className="text-xl font-semibold mb-4">
+            &ldquo;{quote?.dialog}&rdquo;
+          </p>
+          <div className="w-full flex justify-end items-end text-sm text-gray-700 tracking-tight">
+            <p>
+              - <span className="text-red-500 italic">{character?.name}</span>{' '}
+              from <span className="text-blue-500 italic">{movie?.name}</span>
+            </p>
+          </div>
+        </div>
       )}
-      <button onClick={fetchData}>Fetch</button>
+      <button className="black_btn mx-auto mt-5" onClick={fetchData}>
+        New Quote
+      </button>
     </article>
   );
 };
