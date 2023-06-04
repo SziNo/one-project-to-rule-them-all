@@ -7,7 +7,10 @@ export const axiosOne = axios.create({
   },
 });
 
-export const getQuotesPage = async (route) => {
-  const response = await axiosOne.get(`/${route}`);
-  return response.data;
+export const getLOTRData = async (route, id = null) => {
+  const url = id ? `/${route}/${id}` : `/${route}`;
+  const {
+    data: { docs },
+  } = await axiosOne.get(url);
+  return docs;
 };
