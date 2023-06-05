@@ -115,10 +115,7 @@ const Nav = () => {
         </div>
 
         {toggleDropdown && (
-          <div
-            className="dropdown glassmorphism"
-            onClick={() => setToggleDropdown(false)}
-          >
+          <div className="dropdown" onClick={() => setToggleDropdown(false)}>
             {navLinks.map((item, idx) => (
               <Link key={idx} href={item.href} className="dropdown_link">
                 {item.title}
