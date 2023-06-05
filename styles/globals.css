@@ -65,6 +65,21 @@
   opacity: 0.15;
 }
 
+.spinner {
+  height: 80px;
+  width: 80px;
+  border: 5px solid;
+  border-color: rgb(202, 117, 6) transparent;
+  border-radius: 50%;
+  animation: spin 1.3s ease infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media screen and (max-width: 640px) {
   .main {
     padding: 0;
@@ -102,7 +117,7 @@
 }
 
 .desc {
-  @apply mt-10 md:mt-20 text-lg text-gray-800 sm:text-xl max-w-2xl font-bold;
+  @apply mt-10 md:mt-20 text-lg text-gray-900 sm:text-xl max-w-2xl font-bold;
 }
 
 .search_input {
@@ -132,7 +147,7 @@
 }
 
 .dropdown {
-  @apply absolute right-0 top-full mt-3 p-5 rounded-lg bg-white bg-opacity-40 backdrop-blur-md min-w-[180px] flex flex-col gap-2 justify-center items-center border border-white border-opacity-40 shadow-lg;
+  @apply absolute right-0 top-full mt-3 p-5 bg-opacity-40 backdrop-blur-md min-w-[180px] flex flex-col gap-2 justify-center items-center;
 }
 
 .dropdown_link {
