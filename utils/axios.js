@@ -7,10 +7,8 @@ export const axiosOne = axios.create({
   },
 });
 
-export const getLOTRData = async (route, id = null) => {
+export const getLOTRData = async (route, id = null, queryParams = {}) => {
   const url = id ? `/${route}/${id}` : `/${route}`;
-  const {
-    data: { docs },
-  } = await axiosOne.get(url);
-  return docs;
+  const { data } = await axiosOne.get(url, { params: queryParams });
+  return data;
 };
