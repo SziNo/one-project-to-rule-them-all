@@ -10,18 +10,17 @@ const RandomQuote = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
-    setLoading(true);
     const quotesData = await getLOTRData('quote');
 
     const randomQuote =
-      quotesData[Math.floor(Math.random() * quotesData.length)];
+      quotesData.docs[Math.floor(Math.random() * quotesData.docs.length)];
     setQuote(randomQuote?.dialog);
 
     const characterData = await getLOTRData('character', randomQuote.character);
-    setCharacter(characterData[0]?.name);
+    setCharacter(characterData.docs[0]?.name);
 
     const movieData = await getLOTRData('movie', randomQuote.movie);
-    setMovie(movieData[0]?.name);
+    setMovie(movieData.docs[0]?.name);
     setLoading(false);
   }, []);
 
@@ -30,9 +29,9 @@ const RandomQuote = () => {
   }, []);
 
   return (
-    <article className="mt-20">
+    <article className="flex flex-col items-center justify-center w-full mt-20">
       {loading ? (
-        <p>Loading...</p>
+        <div className="spinner mb-10" />
       ) : (
         <div className="glassmorphism flex flex-col gap-3 items-center p-6 rounded-lg shadow-lg tracking-normal max-w-md w-full">
           <p className="text-xl font-semibold mb-4">&ldquo;{quote}&rdquo;</p>
@@ -44,8 +43,13 @@ const RandomQuote = () => {
           </div>
         </div>
       )}
-      <button className="black_btn mx-auto mt-5" onClick={fetchData}>
-        New Quote
+      <button
+        className={`black_btn mx-auto mt-5 ${
+          loading ? 'cursor-not-allowed' : 'cursor-pointer'
+        }`}
+        onClick={fetchData}
+      >
+        {loading ? 'Loading...' : 'New Quote'}
       </button>
     </article>
   );
