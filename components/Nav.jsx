@@ -31,7 +31,7 @@ const Nav = () => {
   };
 
   return (
-    <nav className="flex flex-between w-full mb-16 pt-3">
+    <nav className="flex flex-between w-full py-2">
       <Link href="/" className="flex gap-2 flex-center">
         <Image
           src="/assets/images/gimli-cartoon.png"
@@ -40,11 +40,10 @@ const Nav = () => {
           height={60}
           className="object-contain"
         />
-        <p className="logo_text">The One</p>
       </Link>
 
       {/* Desktop Navigation */}
-      <div className="sm:flex hidden gap-2">
+      <div className="md:flex hidden gap-2">
         {navLinks.map((item, idx) => (
           <Link
             key={idx}
@@ -98,7 +97,7 @@ const Nav = () => {
       </div>
 
       {/* Mobile Navigation */}
-      <div className="sm:hidden flex relative">
+      <div className="md:hidden flex relative">
         <div className="flex">
           <Image
             src={`${
