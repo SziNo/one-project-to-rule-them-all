@@ -8,7 +8,7 @@ const Home = () => {
         <span className="orange_gradient text-center">to rule them all</span>
       </h1>
 
-      <p className="desc">
+      <p className="desc orange_gradient">
         Explore the rich world of Middle-earth using the One API, featuring
         books, characters, movies, and quotes from The Lord of the Rings and The
         Hobbit trilogies.
