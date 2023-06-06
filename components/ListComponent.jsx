@@ -3,17 +3,18 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { getLOTRData } from '@utils/axios';
+import Link from 'next/link';
 import SearchComponent from './SearchComponent';
 import ReactPaginate from 'react-paginate';
 
-const ListComponent = () => {
+const ListComponent = ({ chapter = null }) => {
   const [allData, setAllData] = useState([]);
   const [searchedData, setSearchedData] = useState([]);
   const [displayedData, setDisplayedData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const pathName = usePathname();
-  const currentRoute = pathName.slice(1, -1);
+  const currentPath = pathName.slice(1);
   const itemsPerPage = 9;
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const ListComponent = () => {
           limit: itemsPerPage,
         };
 
-        const result = await getLOTRData(currentRoute, null, queryParams);
+        const result = await getLOTRData(currentPath, null, null, queryParams);
 
         // Set displayedData to the result of the Axios call
         setDisplayedData(result.docs);
@@ -36,17 +37,17 @@ const ListComponent = () => {
     };
 
     fetchData();
-  }, [currentRoute, currentPage]);
+  }, [currentPath, currentPage]);
 
   // Fetch all data without pagination
   useEffect(() => {
     const fetchAllData = async () => {
-      const result = await getLOTRData(currentRoute);
+      const result = await getLOTRData(currentPath);
       setAllData(result.docs);
     };
 
     fetchAllData();
-  }, [currentRoute]);
+  }, [currentPath]);
 
   // Update displayedData and totalPages whenever searchedData changes
   useEffect(() => {
@@ -74,19 +75,25 @@ const ListComponent = () => {
       <SearchComponent data={allData} setSearchedData={setSearchedData} />
       <div className="flex flex-wrap items-center justify-center mb-5">
         {displayedData.map((item) => (
-          <div
+          <Link
             key={item._id}
             className="glassmorphism rounded-lg shadow-md flex flex-col items-center flex-auto w-80"
+            href={
+              chapter
+                ? `${currentPath}/${item._id}/${chapter}`
+                : `${currentPath}/${item._id}`
+            }
           >
-            <h2 className="text-lg font-bold text-gray-600 mb-2">
+            <h2 className="text-lg text-gray-600 mb-1 font-bold">
               {item.name}
             </h2>
-            {item.race && (
-              <p className="text-emerald-600 mb-2 font-semibold">{item.race}</p>
+
+            {item.race && item.gender && (
+              <p className="italic text-emerald-600 mb-1 font-semibold">
+                {item.race} {item.gender}
+              </p>
             )}
-            {item.gender && (
-              <p className="text-teal-600 mb-2 font-semibold">{item.gender}</p>
-            )}
+
             {item.wikiUrl && (
               <a
                 href={item.wikiUrl}
@@ -96,7 +103,7 @@ const ListComponent = () => {
                 Read more on Wiki
               </a>
             )}
-          </div>
+          </Link>
         ))}
       </div>
 
