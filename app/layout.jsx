@@ -5,6 +5,9 @@ import Provider from '@components/Provider';
 export const metadata = {
   title: 'The One Project',
   description: 'LOTR Project using the one API',
+  icons: {
+    icon: '/assets/icons/sauroneye1.png',
+  },
 };
 
 const RootLayout = ({ children }) => {
