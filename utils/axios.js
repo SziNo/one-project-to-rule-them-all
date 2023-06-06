@@ -7,8 +7,17 @@ export const axiosOne = axios.create({
   },
 });
 
-export const getLOTRData = async (route, id = null, queryParams = {}) => {
-  const url = id ? `/${route}/${id}` : `/${route}`;
+export const getLOTRData = async (
+  path,
+  id = null,
+  chapter = null,
+  queryParams = {},
+) => {
+  const url = chapter
+    ? `/${path}/${id}/${chapter}`
+    : id
+    ? `/${path}/${id}`
+    : `/${path}`;
   const { data } = await axiosOne.get(url, { params: queryParams });
   return data;
 };
