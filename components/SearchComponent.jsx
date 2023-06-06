@@ -39,10 +39,14 @@ const SearchComponent = ({ data, setSearchedData }) => {
   };
 
   return (
-    <form className="flex justify-center items-center" onSubmit={handleSubmit}>
+    <form
+      className="flex justify-center items-center my-3 w-60"
+      onSubmit={handleSubmit}
+    >
       <input
         type="text"
         className="p-2 my-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring"
+        placeholder="Search by name or race..."
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
       />
