@@ -9,7 +9,7 @@ const Books = () => {
         Books
       </h1>
 
-      <ListComponent />
+      <ListComponent chapter="chapter" />
     </section>
   );
 };
