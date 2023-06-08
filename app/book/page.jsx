@@ -15,6 +15,3 @@ const Books = () => {
 };
 
 export default Books;
-
-// name: 'The Fellowship Of The Ring';
-// _id: '5cf5805fb53e011a64671582';
