@@ -125,5 +125,4 @@ const ListComponent = ({ chapter = null }) => {
 export default ListComponent;
 
 // Finding out how many races the database contains, use it in the useffect where all data fetched
-
 // console.log([...new Set(result.docs.map((item) => item.race))]);
