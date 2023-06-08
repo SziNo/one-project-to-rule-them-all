@@ -15,11 +15,3 @@ const Movies = () => {
 };
 
 export default Movies;
-
-// academyAwardNominations: 30;
-// academyAwardWins: 17;
-// boxOfficeRevenueInMillions: 2917;
-// budgetInMillions: 281;
-// name: 'The Lord of the Rings Series';
-// rottenTomatoesScore: 94;
-// runtimeInMinutes: 558;
