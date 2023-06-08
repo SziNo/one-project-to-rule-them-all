@@ -99,6 +99,7 @@ const ListComponent = ({ chapter = null }) => {
                 href={item.wikiUrl}
                 target="_blank"
                 className="text-amber-600 font-semibold hover:underline"
+                onClick={(e) => e.stopPropagation()}
               >
                 Read more on Wiki
               </a>
