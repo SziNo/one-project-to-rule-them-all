@@ -1,6 +1,10 @@
 import { getLOTRData } from '@utils/axios';
 
-const CharacterDetailPage = ({ params }) => {
+const CharacterDetailPage = async ({ params }) => {
+  const { docs: character } = await getLOTRData('character', params.id);
+
+  console.log(character[0]);
+
   return (
     <div>
       <h1>Character</h1>
