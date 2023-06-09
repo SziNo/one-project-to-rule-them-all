@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { getLOTRData } from '@utils/axios';
 import Link from 'next/link';
 import SearchComponent from './SearchComponent';
 import ReactPaginate from 'react-paginate';
 
 const ListComponent = ({ chapter = null }) => {
+  const { data: session } = useSession();
   const [allData, setAllData] = useState([]);
   const [searchedData, setSearchedData] = useState([]);
   const [displayedData, setDisplayedData] = useState([]);
@@ -70,6 +72,10 @@ const ListComponent = ({ chapter = null }) => {
   const handlePageChange = (selectedItem) =>
     setCurrentPage(selectedItem.selected);
 
+  const addToFavorites = (e) => {
+    e.stopPropagation();
+  };
+
   return (
     <>
       <SearchComponent data={allData} setSearchedData={setSearchedData} />
@@ -103,6 +109,15 @@ const ListComponent = ({ chapter = null }) => {
               >
                 Read more on Wiki
               </a>
+            )}
+
+            {currentPath === 'character' && session?.user && (
+              <button
+                className="bg-teal-900 text-white text-sm px-4 py-2 rounded-md mt-2"
+                onClick={addToFavorites}
+              >
+                Add to Favorites
+              </button>
             )}
           </Link>
         ))}
