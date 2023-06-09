@@ -1,4 +1,5 @@
 import { getLOTRData } from '@utils/axios';
+import Image from 'next/image';
 
 const MovieDetailPage = async ({ params }) => {
   const { docs: movie } = await getLOTRData('movie', params.id);
@@ -24,45 +25,55 @@ const MovieDetailPage = async ({ params }) => {
   };
 
   return (
-    <section className="flex flex-col justify-center items-center w-full p-5">
-      <h1 className="orange_gradient text-center mb-10 font-bold text-3xl md:text-5xl">
-        Movie
-      </h1>
-      <div className="flex flex-col gap-5 flex-wrap items-center justify-center">
-        <h2 className="text-4xl md:text-6xl text-gray-600 mb-5 font-bold">
+    <section className="flex-center flex-col w-full p-5">
+      <div className="flex-center flex-col gap-5">
+        <h2 className="text-4xl md:text-6xl text-gray-600 md:mb-20 mb-10 font-bold">
           {name}
         </h2>
-        <div className="flex flex-col gap-3 justify-start items-start">
-          <p className="text-xl md:text-2xl italic text-gray-800 font-bold">
-            Runtime:{' '}
-            <span className="text-amber-900 ">{runtimeInMinutes} minutes</span>
-          </p>
-          <p className="text-xl md:text-2xl italic text-gray-800 font-bold">
-            Budget:{' '}
-            <span className="text-amber-900 ">
-              {budgetConverter(budgetInMillions)}
-            </span>
-          </p>
-          <p className="text-xl md:text-2xl italic text-gray-800 font-bold">
-            Box Office Revenue:{' '}
-            <span className="text-amber-900 ">
-              {budgetConverter(boxOfficeRevenueInMillions)}
-            </span>
-          </p>
-          <p className="text-xl md:text-2xl italic text-gray-800 font-bold">
-            Academy Award Nominations:{' '}
-            <span className="text-amber-900 ">{academyAwardNominations}</span>
-          </p>
-          <p className="text-xl md:text-2xl italic text-gray-800 font-bold">
-            Academy Awards Won:{' '}
-            <span className="text-amber-900 ">{academyAwardWins}</span>
-          </p>
-          <p className="text-xl md:text-2xl italic text-gray-800 font-bold">
-            Rotten Tomatoes Score:{' '}
-            <span className="text-amber-900 ">
-              {rottenTomatoesScore.toFixed()}
-            </span>
-          </p>
+        <div className="flex-center gap-5 p-5">
+          <div className="flex flex-col gap-3 justify-start items-start p-5">
+            <p className="text-xl md:text-2xl italic text-gray-800 font-bold">
+              Runtime:{' '}
+              <span className="text-amber-900 ">
+                {runtimeInMinutes} minutes
+              </span>
+            </p>
+            <p className="text-xl md:text-2xl italic text-gray-800 font-bold">
+              Budget:{' '}
+              <span className="text-amber-900 ">
+                {budgetConverter(budgetInMillions)}
+              </span>
+            </p>
+            <p className="text-xl md:text-2xl italic text-gray-800 font-bold">
+              Box Office Revenue:{' '}
+              <span className="text-amber-900 ">
+                {budgetConverter(boxOfficeRevenueInMillions)}
+              </span>
+            </p>
+            <p className="text-xl md:text-2xl italic text-gray-800 font-bold">
+              Academy Award Nominations:{' '}
+              <span className="text-amber-900 ">{academyAwardNominations}</span>
+            </p>
+            <p className="text-xl md:text-2xl italic text-gray-800 font-bold">
+              Academy Awards Won:{' '}
+              <span className="text-amber-900 ">{academyAwardWins}</span>
+            </p>
+            <p className="text-xl md:text-2xl italic text-gray-800 font-bold">
+              Rotten Tomatoes Score:{' '}
+              <span className="text-amber-900 ">
+                {rottenTomatoesScore.toFixed()}
+              </span>
+            </p>
+          </div>
+
+          <div className="md:flex hidden p-5">
+            <Image
+              src="/assets/images/sauron.png"
+              alt="Sauron"
+              width={180}
+              height={300}
+            />
+          </div>
         </div>
       </div>
     </section>
