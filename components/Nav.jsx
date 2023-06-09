@@ -34,7 +34,7 @@ const Nav = () => {
     <nav className="flex flex-between w-full py-2">
       <Link href="/" className="flex gap-2 flex-center">
         <Image
-          src="/assets/images/gimli-cartoon.png"
+          src="/assets/images/gandalf-cartoon.png"
           alt="Gimli Logo"
           width={60}
           height={60}
