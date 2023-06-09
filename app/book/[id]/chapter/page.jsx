@@ -5,7 +5,7 @@ const ChaptersDetailPage = async ({ params }) => {
 
   return (
     <section className="flex flex-col justify-center items-center w-full p-5">
-      <h1 className="orange_gradient text-center mb-10 font-bold text-2xl md:text-5xl">
+      <h1 className="orange_gradient text-center mb-10 font-bold text-3xl md:text-5xl">
         Chapters
       </h1>
       <ul className="flex flex-wrap items-center justify-center mb-5">
