@@ -22,13 +22,17 @@ const SearchComponent = ({ data, setSearchedData }) => {
 
   // Update the filteredData when the debouncedSearchText changes
   useEffect(() => {
-    const filteredData = data.filter(
-      (item) =>
-        item.name
+    const filteredData = data.filter((item) => {
+      const character = item.character || item;
+      return (
+        character.name
           ?.toLowerCase()
           .includes(debouncedSearchedText.toLowerCase()) ||
-        item.race?.toLowerCase().includes(debouncedSearchedText.toLowerCase()),
-    );
+        character.race
+          ?.toLowerCase()
+          .includes(debouncedSearchedText.toLowerCase())
+      );
+    });
 
     setSearchedData(filteredData);
   }, [data, debouncedSearchedText]);
