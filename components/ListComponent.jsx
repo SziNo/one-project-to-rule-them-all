@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { getLOTRData } from '@utils/axios';
+import { getLOTRData, getFavorites, postFavorite } from '@utils/axios';
 import Link from 'next/link';
 import SearchComponent from './SearchComponent';
 import ReactPaginate from 'react-paginate';
@@ -24,17 +24,27 @@ const ListComponent = ({ chapter = null }) => {
     const fetchData = async () => {
       // Only fetch data if searchedData is empty
       if (searchedData.length === 0) {
-        // Add query params for pagination
-        const queryParams = {
-          page: currentPage + 1,
-          limit: itemsPerPage,
-        };
+        let result;
+        if (currentPath === 'favorites') {
+          result = await getFavorites();
 
-        const result = await getLOTRData(currentPath, null, null, queryParams);
+          const dataTotalPages = Math.ceil(
+            result.length !== 0 ? result.length / itemsPerPage : 1,
+          );
 
-        // Set displayedData to the result of the Axios call
-        setDisplayedData(result.docs);
-        setTotalPages(result.pages);
+          setDisplayedData(result);
+          setTotalPages(dataTotalPages);
+        } else {
+          // Add query params for pagination
+          const queryParams = {
+            page: currentPage + 1,
+            limit: itemsPerPage,
+          };
+
+          result = await getLOTRData(currentPath, null, null, queryParams);
+          setDisplayedData(result.docs);
+          setTotalPages(result.pages);
+        }
       }
     };
 
@@ -44,8 +54,14 @@ const ListComponent = ({ chapter = null }) => {
   // Fetch all data without pagination
   useEffect(() => {
     const fetchAllData = async () => {
-      const result = await getLOTRData(currentPath);
-      setAllData(result.docs);
+      if (currentPath === 'favorites') {
+        const data = await getFavorites();
+
+        setAllData(data);
+      } else {
+        const result = await getLOTRData(currentPath);
+        setAllData(result.docs);
+      }
     };
 
     fetchAllData();
@@ -72,55 +88,74 @@ const ListComponent = ({ chapter = null }) => {
   const handlePageChange = (selectedItem) =>
     setCurrentPage(selectedItem.selected);
 
-  const addToFavorites = (e) => {
+  const addToFavorites = async (e, item) => {
     e.stopPropagation();
+
+    try {
+      const response = await postFavorite(item, session?.user.id);
+
+      if (response) {
+        alert('Favorite added successfully!');
+      } else {
+        console.error('Failed to add favorite');
+      }
+    } catch (error) {
+      console.error('Error adding favorite:', error);
+    }
   };
 
   return (
     <>
       <SearchComponent data={allData} setSearchedData={setSearchedData} />
       <div className="flex flex-wrap items-center justify-center mb-5">
-        {displayedData.map((item) => (
-          <Link
-            key={item._id}
-            className="glassmorphism rounded-lg shadow-md flex flex-col items-center flex-auto w-80"
-            href={
-              chapter
-                ? `${currentPath}/${item._id}/${chapter}`
-                : `${currentPath}/${item._id}`
-            }
-          >
-            <h2 className="text-lg text-gray-600 mb-1 font-bold">
-              {item.name}
-            </h2>
+        {displayedData.map((item) => {
+          const data = currentPath === 'favorites' ? item.character : item;
+          return (
+            <Link
+              key={data._id}
+              className="glassmorphism rounded-lg shadow-md flex flex-col items-center flex-auto w-80"
+              href={
+                chapter
+                  ? `${currentPath}/${data._id}/${chapter}`
+                  : currentPath === 'favorites'
+                  ? `/character/${data._id}`
+                  : `${currentPath}/${data._id}`
+              }
+            >
+              <h2 className="text-lg text-gray-600 mb-1 font-bold">
+                {data.name}
+              </h2>
 
-            {item.race && item.gender && (
-              <p className="italic text-emerald-600 mb-1 font-semibold">
-                {item.race} {item.gender}
-              </p>
-            )}
+              {data.race && data.gender && (
+                <p className="italic text-emerald-600 mb-1 font-semibold">
+                  {data.race} {data.gender}
+                </p>
+              )}
 
-            {item.wikiUrl && (
-              <a
-                href={item.wikiUrl}
-                target="_blank"
-                className="text-amber-600 font-semibold hover:underline"
-                onClick={(e) => e.stopPropagation()}
-              >
-                Read more on Wiki
-              </a>
-            )}
+              {data.wikiUrl && (
+                <a
+                  href={data.wikiUrl}
+                  target="_blank"
+                  className="text-amber-600 font-semibold hover:underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Read more on Wiki
+                </a>
+              )}
 
-            {currentPath === 'character' && session?.user && (
-              <button
-                className="bg-teal-900 text-white text-sm px-4 py-2 rounded-md mt-2"
-                onClick={addToFavorites}
-              >
-                Add to Favorites
-              </button>
-            )}
-          </Link>
-        ))}
+              {currentPath === 'character' && session?.user && (
+                // if button used here then click event will be triggered on Link despite using e.stopPropagation
+                <a
+                  href="#"
+                  className="bg-teal-900 text-white text-sm px-4 py-2 rounded-md mt-2"
+                  onClick={(e) => addToFavorites(e, data)}
+                >
+                  Add to Favorites
+                </a>
+              )}
+            </Link>
+          );
+        })}
       </div>
 
       <ReactPaginate
