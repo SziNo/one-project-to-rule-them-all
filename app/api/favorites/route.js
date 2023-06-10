@@ -1,18 +1,10 @@
 import Favorite from '@models/favorite';
 import { connectToDB } from '@utils/database';
-import { getSession } from 'next-auth/react';
 
 export const GET = async (request) => {
   try {
     await connectToDB();
-
-    const session = await getSession({ req: request });
-
-    if (!session) {
-      return new Response('Unauthorized', { status: 401 });
-    }
-
-    const favorites = await Favorite.find({ user: session.user.id });
+    const favorites = await Favorite.find({}).populate('user');
 
     return new Response(JSON.stringify(favorites), { status: 200 });
   } catch (error) {
@@ -21,24 +13,19 @@ export const GET = async (request) => {
 };
 
 export const POST = async (request) => {
+  const { userId, character } = await request.json();
+
   try {
     await connectToDB();
 
-    const session = await getSession({ req: request });
-
-    if (!session) {
-      return new Response('Unauthorized', { status: 401 });
-    }
-
-    const { character } = await request.json();
-
-    await Favorite.create({
+    const newFavorite = await Favorite.create({
       character,
-      user: session.user.id,
+      user: userId,
     });
 
-    return new Response('Favorite added successfully', { status: 201 });
+    return new Response(JSON.stringify(newFavorite), { status: 201 });
   } catch (error) {
+    console.error('Error adding favorite:', error);
     return new Response('Failed to add favorite', { status: 500 });
   }
 };
