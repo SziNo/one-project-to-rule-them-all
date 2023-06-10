@@ -21,3 +21,25 @@ export const getLOTRData = async (
   const { data } = await axiosOne.get(url, { params: queryParams });
   return data;
 };
+
+export const getFavorites = async () => {
+  try {
+    const url = '/api/favorites';
+    const response = await axios.get(url);
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching favorites:', error);
+  }
+};
+
+export const postFavorite = async (item, userId) => {
+  try {
+    const url = '/api/favorites';
+    const response = await axios.post(url, { character: item, userId });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error adding favorite:', error);
+  }
+};
