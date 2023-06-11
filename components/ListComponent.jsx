@@ -92,12 +92,26 @@ const ListComponent = ({ chapter = null }) => {
     e.stopPropagation();
 
     try {
-      const response = await postFavorite(item, session?.user.id);
+      // Fetch the favorites data
+      const favorites = await getFavorites();
 
-      if (response) {
-        alert('Favorite added successfully!');
+      // Check if the item already exists in the database
+      const itemExists = favorites.some(
+        (favorite) => favorite.character._id === item._id,
+      );
+
+      if (itemExists) {
+        // Item already exists in the database
+        alert('Already added to favorites!');
       } else {
-        console.error('Failed to add favorite');
+        // Item does not exist in the database, so add it
+        const response = await postFavorite(item, session?.user.id);
+
+        if (response) {
+          alert('Favorite added successfully!');
+        } else {
+          console.error('Failed to add favorite');
+        }
       }
     } catch (error) {
       console.error('Error adding favorite:', error);
@@ -117,8 +131,6 @@ const ListComponent = ({ chapter = null }) => {
               href={
                 chapter
                   ? `${currentPath}/${data._id}/${chapter}`
-                  : currentPath === 'favorites'
-                  ? `/character/${data._id}`
                   : `${currentPath}/${data._id}`
               }
             >
