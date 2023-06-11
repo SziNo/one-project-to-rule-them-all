@@ -68,9 +68,9 @@ const MovieDetailPage = async ({ params }) => {
 
           <div className="md:flex hidden p-5">
             <Image
-              src="/assets/images/sauron.png"
-              alt="Sauron"
-              width={180}
+              src="/assets/images/gandalfsaruman.png"
+              alt="Gandalf&Saruman"
+              width={300}
               height={300}
             />
           </div>

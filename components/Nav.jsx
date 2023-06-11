@@ -34,10 +34,10 @@ const Nav = () => {
     <nav className="flex flex-between w-full py-2">
       <Link href="/" className="flex gap-2 flex-center">
         <Image
-          src="/assets/images/gandalf-cartoon.png"
-          alt="Gimli Logo"
-          width={60}
-          height={60}
+          src="/assets/images/thering.png"
+          alt="The Ring Logo"
+          width={75}
+          height={75}
           className="object-contain"
         />
       </Link>

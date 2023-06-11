@@ -3,7 +3,6 @@ import Image from 'next/image';
 
 const CharacterDetailPage = async ({ params }) => {
   const { docs: character } = await getLOTRData('character', params.id);
-
   const { name, race, gender, birth, death, spouse } = character[0];
 
   return (
@@ -33,9 +32,9 @@ const CharacterDetailPage = async ({ params }) => {
 
           <div className="md:flex hidden p-5">
             <Image
-              src="/assets/images/gimli.png"
-              alt="Gimli"
-              width={180}
+              src="/assets/images/frodosmeagol.png"
+              alt="Frodo&Smeagol"
+              width={300}
               height={300}
             />
           </div>
