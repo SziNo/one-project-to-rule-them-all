@@ -29,7 +29,7 @@ export const getFavorites = async () => {
 
     return response.data;
   } catch (error) {
-    console.error('Error fetching favorites:', error);
+    console.error('Error with fetching favorites:', error);
   }
 };
 
@@ -40,6 +40,17 @@ export const postFavorite = async (item, userId) => {
 
     return response.data;
   } catch (error) {
-    console.error('Error adding favorite:', error);
+    console.error('Error with adding favorite:', error);
+  }
+};
+
+export const deleteFavorite = async (id) => {
+  try {
+    const url = `/api/favorites/${id}`;
+    const response = await axios.delete(url);
+
+    return response.data;
+  } catch (error) {
+    console.error('Error with deleting favorite', error);
   }
 };
