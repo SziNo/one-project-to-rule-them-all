@@ -25,7 +25,7 @@ export const POST = async (request) => {
 
     return new Response(JSON.stringify(newFavorite), { status: 201 });
   } catch (error) {
-    console.error('Error adding favorite:', error);
+    console.error('Error with adding favorite:', error);
     return new Response('Failed to add favorite', { status: 500 });
   }
 };
