@@ -127,7 +127,7 @@ const ListComponent = ({ chapter = null }) => {
           return (
             <Link
               key={data._id}
-              className="glassmorphism rounded-lg shadow-md flex flex-col items-center flex-auto w-80"
+              className="glassmorphism shadow-md flex flex-col items-center justify-around flex-auto w-80 h-40"
               href={
                 chapter
                   ? `${currentPath}/${data._id}/${chapter}`
