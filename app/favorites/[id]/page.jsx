@@ -18,7 +18,8 @@ const FavoritesDetailPage = ({ params }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getFavorites();
+        // Pass the user ID to the getFavorites function
+        const data = await getFavorites(session?.user.id);
         const favoriteItem = data.find(
           (item) => item.character._id === params.id,
         );
