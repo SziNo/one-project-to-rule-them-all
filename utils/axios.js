@@ -22,9 +22,9 @@ export const getLOTRData = async (
   return data;
 };
 
-export const getFavorites = async () => {
+export const getFavorites = async (userId) => {
   try {
-    const url = '/api/favorites';
+    const url = `/api/favorites?userId=${userId}`;
     const response = await axios.get(url);
 
     return response.data;
