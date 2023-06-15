@@ -26,7 +26,8 @@ const ListComponent = ({ chapter = null }) => {
       if (searchedData.length === 0) {
         let result;
         if (currentPath === 'favorites') {
-          result = await getFavorites();
+          // Pass the user ID to the getFavorites function
+          result = await getFavorites(session?.user.id);
 
           const dataTotalPages = Math.ceil(
             result.length !== 0 ? result.length / itemsPerPage : 1,
@@ -55,7 +56,7 @@ const ListComponent = ({ chapter = null }) => {
   useEffect(() => {
     const fetchAllData = async () => {
       if (currentPath === 'favorites') {
-        const data = await getFavorites();
+        const data = await getFavorites(session?.user.id);
 
         setAllData(data);
       } else {
@@ -93,7 +94,7 @@ const ListComponent = ({ chapter = null }) => {
 
     try {
       // Fetch the favorites data
-      const favorites = await getFavorites();
+      const favorites = await getFavorites(session?.user.id);
 
       // Check if the item already exists in the database
       const itemExists = favorites.some(
