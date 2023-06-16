@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { signIn, signOut, useSession, getProviders } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { navLinks } from '@utils/constants';
@@ -11,6 +12,7 @@ const Nav = () => {
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
   const [isActive, setIsActive] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const setNewProviders = async () => {
@@ -24,6 +26,12 @@ const Nav = () => {
   const handleMobileLogoutClick = () => {
     signOut();
     setToggleDropdown(false);
+    router.push('/');
+  };
+
+  const handleDesktopLogoutClick = () => {
+    signOut();
+    router.push('/');
   };
 
   const handleIsActiveClick = (e) => {
@@ -75,7 +83,11 @@ const Nav = () => {
               Favorites
             </Link>
 
-            <button type="button" onClick={signOut} className="black_btn">
+            <button
+              type="button"
+              onClick={handleDesktopLogoutClick}
+              className="black_btn"
+            >
               Sign Out
             </button>
           </div>
