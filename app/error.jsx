@@ -11,16 +11,17 @@ export default function Error({ error, reset }) {
   }, [error]);
 
   return (
-    <div>
-      <h2>Oops, something went wrong!</h2>
+    <div className="w-full flex-center flex-col text-center tracking-[3px]">
+      <h2 className="head_text">Oops, something went wrong!</h2>
       <button
         type="button"
         onClick={() => {
           reset();
           router.push('/');
         }}
+        className="black_btn mx-auto mt-5 cursor-pointer"
       >
-        Go to Home Page
+        Back to Home Page
       </button>
     </div>
   );
